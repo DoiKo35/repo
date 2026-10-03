@@ -1,0 +1,101 @@
+Package: com.ps.amber
+Name: Amber
+Version: 1.2.4
+Architecture: iphoneos-arm64
+Depends: mobilesubstrate, gsc.camera-flash, firmware (>= 13.0)
+Filename: debs/com.ps.amber_1.2.4_iphoneos-arm64.deb
+Size: 8754
+MD5sum: 2fdce722d7b48230bf0fe462b604d6b6
+SHA1: 88256a5db0cabf3f7e014759a4761edcf30291c3
+SHA256: 535fb81189c6159c215d8243e6be7ce496703b4c13fdc70922d3d7d4dab44dc6
+Section: Tweaks
+Author: PoomSmart
+Maintainer: PoomSmart
+Icon: https://DoiKo35.github.io/repo/icons/com.ps.amber.png
+Depiction: https://DoiKo35.github.io/repo/index.html#com.ps.amber-page
+Description: Amber-ify your flashlight LEDs.
+
+Package: com.teslaman3092.popoutbuttons
+Name: PopOutButtons
+Version: 1.0.2
+Architecture: iphoneos-arm64
+Depends: mobilesubstrate (>= 0.9.5000), com.mrgcgamer.libgcuniversal, preferenceloader
+Filename: debs/com.teslaman3092.popoutbuttons_1.0.2_iphoneos-arm64.deb
+Size: 56236
+MD5sum: 81cfdac2697865422606a9bc6d5a9189
+SHA1: 767ed58c71092a78df32044a945a494194c19c2f
+SHA256: 8ed1515cae943f266eaaa3b08da56c03ffdb1c47eac041c11b504da8ea4cbe41
+Section: Tweaks
+Author: tesla_man
+Maintainer: tesla_man
+Icon: https://DoiKo35.github.io/repo/icons/com.teslaman3092.popoutbuttons.png
+Depiction: https://DoiKo35.github.io/repo/index.html#com.teslaman3092.popoutbuttons-page
+Description: PopOutButtons bring the iOS 18 buttons popouts to iOS 13-17
+
+Package: com.opa334.trollstorelite
+Name: TrollStore Lite
+Version: 2.1.1
+Architecture: iphoneos-arm64
+Depends: firmware (>= 15.0)
+Filename: debs/com.opa334.trollstorelite_2.1.1_iphoneos-arm64.deb
+Size: 212938
+MD5sum: cb9eef492a726584e54f0c85418d2b96
+SHA1: d8b2cbe68363fc24c38363822eb189c67b2cff84
+SHA256: 61ffce0715de3043abaf995c303a5975ecae87a406eff9219b15d7d0bba17b33
+Section: Applications
+Author: opa334
+Maintainer: opa334
+Icon: https://DoiKo35.github.io/repo/icons/com.opa334.trollstorelite.png
+Depiction: https://DoiKo35.github.io/repo/index.html#com.opa334.trollstorelite-page
+Description: TrollStore for jailbroken iOS
+
+Package: com.kitsune.profilebanners
+Name: Kitsune Profile Banners
+Version: 1.0.1
+Architecture: iphoneos-arm64
+Depends: mobilesubstrate, preferenceloader
+Filename: debs/com.kitsune.profilebanners_1.0.1_iphoneos-arm64.deb
+Size: 8112
+MD5sum: 4ab01bf834f7790e6ce77b009f4194d5
+SHA1: d2e7c41ed23eb31b62c571fcc284b9bf6556d2ad
+SHA256: 3b6bcc9dd510b23a47320988d751327b765cfc4618dba55d440dc7c898f85f95
+Section: Tweaks
+Author: kitsune
+Maintainer: kitsune
+Depiction: https://DoiKo35.github.io/repo/index.html#com.kitsune.profilebanners-page
+Description: Profile banner switch for TikTok 46.7.0 / GTok 2.0.
+
+Package: com.jtisvn.homescreen18
+Name: Homescreen18
+Version: 1.0
+Architecture: iphoneos-arm64
+Depends: firmware (>= 16.0), preferenceloader, mobilesubstrate
+Filename: debs/com.evgeniy.homescreen18_1.0_iphoneos-arm64.deb
+Size: 83186724
+MD5sum: b505b4aafb0ce73232d86f10f286b9ab
+SHA1: 5263bed36c216a52f0eda5189c8491f6083d3911
+SHA256: 8138178ebcac850482cbb6e74cc02084d009b20bc8804ceeee0903fc039592cb
+Section: Tweaks
+Author: evgeniy
+Maintainer: evgeniy
+Icon: https://DoiKo35.github.io/repo/icons/com.jtisvn.homescreen18.png
+Depiction: https://DoiKo35.github.io/repo/index.html#com.jtisvn.homescreen18-page
+Description: Adds homescreen customization like on iOS 18. Supports iOS 16.0-17.7 Dopamine, NathanLR Rootless.
+
+Package: com.jtisvn.cc18
+Name: CC18
+Version: 0.0.3
+Architecture: iphoneos-arm64
+Depends: mobilesubstrate (>= 0.9.5000), firmware (< 18.0)
+Filename: debs/com.jtis.cc18_0.0.3_iphoneos-arm64.deb
+Size: 4648
+MD5sum: 5e8b8a35e943941e9e3e4a06afccbc0a
+SHA1: a7d53edf6dda4cbd2c935ded4e628713223ec121
+SHA256: 0ccb15fa7c4b28ff28f7d670c2234d4fc31395dc039d75c08a596f386841c702
+Section: Tweaks
+Author: dvntm
+Maintainer: dvntm
+Icon: https://DoiKo35.github.io/repo/icons/com.jtisvn.cc18.png
+Depiction: https://DoiKo35.github.io/repo/index.html#com.jtisvn.cc18-page
+Description: Brings the iOS 18 control center on older devices! (iOS 15.0-16.7.15)
+

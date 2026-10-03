@@ -1,0 +1,22 @@
+Origin: gigabyte's Tech Repo
+Label: gigabyte's Tech Repo
+Suite: stable
+Version: 1.0
+Codename: ios
+Architectures: iphoneos-arm iphoneos-arm64
+Components: main
+Icon: https://DoiKo35.github.io/repo/CydiaIcon.png
+SileoFeatured: sileo-featured.json
+Description: Rootless only.
+MD5Sum:
+ c5bba6a7ca07882f1068e8ae52a87929 3898 Packages
+ a540c4d0423648c9516f45d0a770b5e9 1465 Packages.gz
+ c230689f63caec30cf1b764dfa41fd7f 1611 Packages.bz2
+SHA1:
+ 2aceea2e65024d154c79a549962019e2434b08a7 3898 Packages
+ 4e41ab05a1b905dcf454153c0c8a7c25bd28ef5e 1465 Packages.gz
+ 268ae52fd7983c866d9ff7eacf49ffa46b2eed28 1611 Packages.bz2
+SHA256:
+ a6572f883316e95ae8e6642dfb07a32c229d61b90b4dc47719f97676268734f1 3898 Packages
+ c2e76cca4e27a3ca6a5a9f28bfd007e9f371270f4e0b0a427702de0ad6601ccf 1465 Packages.gz
+ 68be67480489b3e500c015ff45dce2ef5f1cec599acad90693e41613a77addc1 1611 Packages.bz2

@@ -1,0 +1,17 @@
+{
+    "class": "FeaturedBannersView",
+    "itemSize": "{263, 148}",
+    "itemCornerRadius": 10,
+    "banners": [
+        {
+            "title": "TrollStore Lite",
+            "package": "com.opa334.trollstorelite",
+            "url": "https://DoiKo35.github.io/repo/banners/com.opa334.trollstorelite_banner.png"
+        },
+        {
+            "title": "Homescreen18",
+            "package": "com.jtisvn.homescreen18",
+            "url": "https://DoiKo35.github.io/repo/banners/com.jtisvn.homescreen18_banner.jpg"
+        }
+    ]
+}

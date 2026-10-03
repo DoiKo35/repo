@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Repo Builder Pro</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #eef1f5; margin: 0; padding: 15px; color: #2c3e50; font-size: 13px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        h1 { font-size: 20px; margin: 0; color: #1a252f; display: flex; align-items: center; gap: 8px; }
+        .card { background: #fff; border-radius: 8px; padding: 12px 15px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #dcdfe6; }
+        .card-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: #34495e; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f2f5; padding-bottom: 6px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px 12px; }
+        .full { grid-column: 1 / -1; }
+        label { display: block; font-size: 11px; font-weight: 600; color: #7f8c8d; margin-bottom: 3px; text-transform: uppercase; }
+        input[type="text"] { width: 100%; padding: 6px 8px; border: 1px solid #dcdfe6; border-radius: 5px; box-sizing: border-box; font-size: 12px; }
+        input[type="text"]:focus { border-color: #3498db; outline: none; }
+        .file-upload-box { border: 1px dashed #cbd5e1; background: #f8fafc; border-radius: 5px; padding: 6px 8px; display: flex; align-items: center; gap: 10px; }
+        .file-upload-box input[type="file"] { font-size: 11px; width: 100%; cursor: pointer; }
+        .preview-img { width: 32px; height: 32px; border-radius: 6px; object-fit: cover; background: #e2e8f0; border: 1px solid #cbd5e1; flex-shrink: 0; }
+        .file-status { font-size: 11px; font-weight: bold; color: #10b981; white-space: nowrap; }
+        .btn { padding: 6px 12px; border-radius: 5px; font-weight: 600; border: none; cursor: pointer; font-size: 12px; transition: 0.1s; }
+        .btn-main { background: #2563eb; color: #fff; width: 100%; padding: 10px; font-size: 14px; margin-top: 5px; }
+        .btn-main:hover { background: #1d4ed8; }
+        .btn-add { background: #10b981; color: #fff; }
+        .btn-add:hover { background: #059669; }
+        .btn-danger { background: #ef4444; color: #fff; padding: 3px 8px; font-size: 11px; }
+        .btn-reset { background: #94a3b8; color: #fff; }
+        .checkbox-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+        .status-msg { text-align: center; margin-top: 8px; font-weight: 600; font-size: 12px; color: #64748b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-bar">
+            <h1>📦 Repo Builder Pro</h1>
+            <button type="button" class="btn btn-reset" onclick="resetAll()">Очистить всё</button>
+        </div>
+        
+        <form id="builderForm">
+            <!-- Параметры Репозитория -->
+            <div class="card">
+                <div class="card-title">Настройки репозитория</div>
+                <div class="grid">
+                    <div><label>Название репо</label><input type="text" id="r_name" class="saveable" placeholder="gigabyte's Tech"></div>
+                    <div><label>Адрес репо (URL без https://)</label><input type="text" id="r_url" class="saveable" placeholder="DoiKo35.github.io/repo"></div>
+                    <div class="full"><label>Описание</label><input type="text" id="r_desc" class="saveable" placeholder="Официальный репозиторий твиков"></div>
+                    <div class="full">
+                        <label>Иконка репозитория (CydiaIcon.png 64x64)</label>
+                        <div class="file-upload-box">
+                            <img id="r_icon_preview" class="preview-img" style="display:none;">
+                            <input type="file" accept="image/*" onchange="uploadFile(this, 'repo_icon')">
+                            <span id="r_icon_status" class="file-status"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Список твиков -->
+            <div id="tweaksContainer"></div>
+            
+            <div style="display:flex; gap: 10px;">
+                <button type="button" class="btn btn-add" onclick="addTweak()">+ Добавить твик</button>
+            </div>
+
+            <button type="button" class="btn btn-main" onclick="buildRepo()">🚀 Скомпилировать репозиторий в ZIP</button>
+            <div id="status" class="status-msg"></div>
+        </form>
+    </div>
+
+    <script>
+        let tweakCounter = 0;
+        let state = {
+            repo: { name: '', url: '', desc: '', icon_saved_path: '', icon_preview: '' },
+            tweaks: []
+        };
+
+        window.onload = function() {
+            loadSession();
+        };
+
+        // Подгрузка сессии напрямую с сервера (session.json)
+        async function loadSession() {
+            try {
+                const res = await fetch('/get_session');
+                state = await res.json();
+                
+                document.getElementById('r_name').value = state.repo.name || '';
+                document.getElementById('r_url').value = state.repo.url || '';
+                document.getElementById('r_desc').value = state.repo.desc || '';
+                
+                if (state.repo.icon_preview) {
+                    const img = document.getElementById('r_icon_preview');
+                    img.src = state.repo.icon_preview;
+                    img.style.display = 'block';
+                    document.getElementById('r_icon_status').innerText = '✓ Загружено';
+                }
+
+                if (state.tweaks && state.tweaks.length > 0) {
+                    state.tweaks.forEach(tData => addTweak(tData));
+                } else {
+                    addTweak();
+                }
+            } catch(e) {
+                addTweak();
+            }
+            bindAutoSave();
+        }
+
+        // Сохранение сессии в session.json на сервере
+        async function saveSession() {
+            state.repo.name = document.getElementById('r_name').value;
+            state.repo.url = document.getElementById('r_url').value;
+            state.repo.desc = document.getElementById('r_desc').value;
+
+            state.tweaks = [];
+            document.querySelectorAll('.tweak-card').forEach(card => {
+                state.tweaks.push({
+                    package: card.querySelector('.t_package').value,
+                    name: card.querySelector('.t_name').value,
+                    version: card.querySelector('.t_version').value,
+                    architecture: card.querySelector('.t_arch').value,
+                    author: card.querySelector('.t_author').value,
+                    section: card.querySelector('.t_section').value,
+                    depends: card.querySelector('.t_depends').value,
+                    description: card.querySelector('.t_desc').value,
+                    featured: card.querySelector('.t_featured').checked,
+                    
+                    deb_saved_path: card.dataset.deb_saved_path || '',
+                    deb_original_name: card.dataset.deb_original_name || '',
+                    icon_saved_path: card.dataset.icon_saved_path || '',
+                    icon_preview: card.dataset.icon_preview || '',
+                    banner_saved_path: card.dataset.banner_saved_path || '',
+                    banner_preview: card.dataset.banner_preview || ''
+                });
+            });
+
+            await fetch('/save_session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(state)
+            });
+        }
+
+        function bindAutoSave() {
+            document.querySelectorAll('.saveable').forEach(el => {
+                el.removeEventListener('input', saveSession);
+                el.addEventListener('input', saveSession);
+            });
+        }
+
+        function addTweak(data = null) {
+            const id = tweakCounter++;
+            const card = document.createElement('div');
+            card.className = 'card tweak-card';
+            card.id = `tweak_card_${id}`;
+            
+            card.innerHTML = `
+                <div class="card-title">
+                    <span>Твик #${id + 1}</span>
+                    <button type="button" class="btn btn-danger" onclick="removeTweak(${id})">Удалить</button>
+                </div>
+                <div class="grid">
+                    <div><label>Package ID</label><input type="text" class="t_package saveable" placeholder="com.my.tweak"></div>
+                    <div><label>Имя</label><input type="text" class="t_name saveable" placeholder="My Tweak"></div>
+                    <div><label>Версия</label><input type="text" class="t_version saveable" placeholder="1.0.0"></div>
+                    <div><label>Архитектура</label><input type="text" class="t_arch saveable" value="iphoneos-arm64"></div>
+                    <div><label>Автор</label><input type="text" class="t_author saveable" placeholder="gigabyte"></div>
+                    <div><label>Секция</label><input type="text" class="t_section saveable" value="Tweaks"></div>
+                    <!-- Готовые дефолтные зависимости -->
+                    <div class="full"><label>Зависимости (Depends)</label><input type="text" class="t_depends saveable" value="mobilesubstrate, preferenceloader"></div>
+                    <div class="full"><label>Описание</label><input type="text" class="t_desc saveable" placeholder="Описание твика"></div>
+                    
+                    <div class="full">
+                        <label>Файл твика (.deb)</label>
+                        <div class="file-upload-box">
+                            <input type="file" accept=".deb" onchange="uploadFile(this, 'deb', ${id})">
+                            <span class="file-status t_deb_status"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Иконка твика</label>
+                        <div class="file-upload-box">
+                            <img class="preview-img t_icon_preview" style="display:none;">
+                            <input type="file" accept="image/*" onchange="uploadFile(this, 'icon', ${id})">
+                            <span class="file-status t_icon_status"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Sileo Featured</label>
+                        <div class="checkbox-row" style="height: 30px;">
+                            <input type="checkbox" class="t_featured saveable"> <span style="font-size:11px;">В баннеры</span>
+                        </div>
+                    </div>
+
+                    <div class="full">
+                        <label>Баннер для Featured (Картинка)</label>
+                        <div class="file-upload-box">
+                            <img class="preview-img t_banner_preview" style="display:none;">
+                            <input type="file" accept="image/*" onchange="uploadFile(this, 'banner', ${id})">
+                            <span class="file-status t_banner_status"></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('tweaksContainer').appendChild(card);
+
+            if (data) {
+                card.querySelector('.t_package').value = data.package || '';
+                card.querySelector('.t_name').value = data.name || '';
+                card.querySelector('.t_version').value = data.version || '';
+                card.querySelector('.t_arch').value = data.architecture || 'iphoneos-arm64';
+                card.querySelector('.t_author').value = data.author || '';
+                card.querySelector('.t_section').value = data.section || 'Tweaks';
+                card.querySelector('.t_depends').value = data.depends !== undefined ? data.depends : 'mobilesubstrate, preferenceloader';
+                card.querySelector('.t_desc').value = data.description || '';
+                card.querySelector('.t_featured').checked = data.featured || false;
+
+                if (data.deb_saved_path) {
+                    card.dataset.deb_saved_path = data.deb_saved_path;
+                    card.dataset.deb_original_name = data.deb_original_name;
+                    card.querySelector('.t_deb_status').innerText = `✓ ${data.deb_original_name}`;
+                }
+                if (data.icon_preview) {
+                    card.dataset.icon_saved_path = data.icon_saved_path;
+                    card.dataset.icon_preview = data.icon_preview;
+                    const img = card.querySelector('.t_icon_preview');
+                    img.src = data.icon_preview; img.style.display = 'block';
+                    card.querySelector('.t_icon_status').innerText = '✓';
+                }
+                if (data.banner_preview) {
+                    card.dataset.banner_saved_path = data.banner_saved_path;
+                    card.dataset.banner_preview = data.banner_preview;
+                    const img = card.querySelector('.t_banner_preview');
+                    img.src = data.banner_preview; img.style.display = 'block';
+                    card.querySelector('.t_banner_status').innerText = '✓';
+                }
+            }
+
+            bindAutoSave();
+        }
+
+        function removeTweak(id) {
+            document.getElementById(`tweak_card_${id}`).remove();
+            saveSession();
+        }
+
+        async function uploadFile(input, type, tweakId = null) {
+            if (!input.files[0]) return;
+            
+            const formData = new FormData();
+            formData.append('file', input.files[0]);
+
+            const statusEl = tweakId !== null ? 
+                document.querySelector(`#tweak_card_${tweakId} .t_${type}_status`) : 
+                document.getElementById('r_icon_status');
+            
+            if (statusEl) statusEl.innerText = 'Загрузка...';
+
+            try {
+                const res = await fetch('/upload_draft', { method: 'POST', body: formData });
+                const json = await res.json();
+                
+                if (res.ok) {
+                    if (type === 'repo_icon') {
+                        state.repo.icon_saved_path = json.saved_path;
+                        state.repo.icon_preview = json.preview_url;
+                        const img = document.getElementById('r_icon_preview');
+                        img.src = json.preview_url; img.style.display = 'block';
+                        statusEl.innerText = '✓ Загружено';
+                    } else {
+                        const card = document.getElementById(`tweak_card_${tweakId}`);
+                        if (type === 'deb') {
+                            card.dataset.deb_saved_path = json.saved_path;
+                            card.dataset.deb_original_name = json.original_name;
+                            statusEl.innerText = `✓ ${json.original_name}`;
+                        } else if (type === 'icon') {
+                            card.dataset.icon_saved_path = json.saved_path;
+                            card.dataset.icon_preview = json.preview_url;
+                            const img = card.querySelector('.t_icon_preview');
+                            img.src = json.preview_url; img.style.display = 'block';
+                            statusEl.innerText = '✓';
+                        } else if (type === 'banner') {
+                            card.dataset.banner_saved_path = json.saved_path;
+                            card.dataset.banner_preview = json.preview_url;
+                            const img = card.querySelector('.t_banner_preview');
+                            img.src = json.preview_url; img.style.display = 'block';
+                            statusEl.innerText = '✓';
+                        }
+                    }
+                    saveSession();
+                } else {
+                    if (statusEl) statusEl.innerText = 'Ошибка';
+                }
+            } catch(e) {
+                if (statusEl) statusEl.innerText = 'Ошибка сети';
+            }
+        }
+
+        async function buildRepo() {
+            await saveSession();
+            const status = document.getElementById('status');
+            status.innerText = 'Сборка и расчет хешей...';
+
+            if (!state.repo.name || !state.repo.url) {
+                alert('Укажите название и адрес репозитория!');
+                status.innerText = '';
+                return;
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append('metadata', JSON.stringify(state));
+
+                const response = await fetch('/build', { method: 'POST', body: formData });
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = "my_compiled_repo.zip";
+                    a.click();
+                    status.innerText = '✅ Репозиторий успешно скомпилирован и скачан!';
+                } else {
+                    status.innerText = '❌ Ошибка сборки на сервере.';
+                }
+            } catch(e) {
+                status.innerText = '❌ Ошибка отправки запроса.';
+            }
+        }
+
+        async function resetAll() {
+            if (confirm('Очистить файл сессии и все заполненные данные?')) {
+                await fetch('/reset_session', { method: 'POST' });
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

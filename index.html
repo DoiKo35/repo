@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gigabyte's Tech Repo</title>
+    <link rel="icon" type="image/png" href="CydiaIcon.png">
+    <link rel="apple-touch-icon" href="CydiaIcon.png">
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #cbd2d8; margin: 0; padding: 12px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 800px; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 15px; }
+        .icon { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; flex-shrink: 0; background: #f0f0f0; }
+        .title { font-size: 22px; font-weight: bold; margin: 0; }
+        .desc { color: #666; font-size: 13px; margin-top: 3px; }
+        .btn-group { display: flex; gap: 8px; margin-bottom: 12px; }
+        .btn { flex: 1; background: #007aff; color: white; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 13px; }
+        .tweak-list { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tweak-item { padding: 12px 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
+        .tweak-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <img src="CydiaIcon.png" class="icon" onerror="this.style.display='none'">
+            <div>
+                <h1 class="title">gigabyte's Tech Repo</h1>
+                <div class="desc">Rootless only.</div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <a href="sileo://source/https://DoiKo35.github.io/repo" class="btn">Sileo</a>
+            <a href="zbra://sources/add/https://DoiKo35.github.io/repo" class="btn">Zebra</a>
+            <a href="cydia://url/https://cydia.saurik.com/api/share#?source=https://DoiKo35.github.io/repo" class="btn">Cydia</a>
+        </div>
+        
+        <h3 style="color: #4d566f; margin: 10px 0 6px 6px; font-size: 15px;">Пакеты</h3>
+        <div class="tweak-list">
+            
+            <div class="tweak-item">
+                <img src='icons/com.ps.amber.png' class='icon'>
+                <div>
+                    <div style="font-weight:bold; font-size:15px;">Amber <span style="color:#888; font-size:12px;">v1.2.4</span></div>
+                    <div style="color:#666; font-size:13px; margin-top:2px;">Amber-ify your flashlight LEDs.</div>
+                </div>
+            </div>
+            <div class="tweak-item">
+                <img src='icons/com.teslaman3092.popoutbuttons.png' class='icon'>
+                <div>
+                    <div style="font-weight:bold; font-size:15px;">PopOutButtons <span style="color:#888; font-size:12px;">v1.0.2</span></div>
+                    <div style="color:#666; font-size:13px; margin-top:2px;">PopOutButtons bring the iOS 18 buttons popouts to iOS 13-17</div>
+                </div>
+            </div>
+            <div class="tweak-item">
+                <img src='icons/com.opa334.trollstorelite.png' class='icon'>
+                <div>
+                    <div style="font-weight:bold; font-size:15px;">TrollStore Lite <span style="color:#888; font-size:12px;">v2.1.1</span></div>
+                    <div style="color:#666; font-size:13px; margin-top:2px;">TrollStore for jailbroken iOS</div>
+                </div>
+            </div>
+            <div class="tweak-item">
+                <div class='icon'></div>
+                <div>
+                    <div style="font-weight:bold; font-size:15px;">Kitsune Profile Banners <span style="color:#888; font-size:12px;">v1.0.1</span></div>
+                    <div style="color:#666; font-size:13px; margin-top:2px;">Profile banner switch for TikTok 46.7.0 / GTok 2.0.</div>
+                </div>
+            </div>
+            <div class="tweak-item">
+                <img src='icons/com.jtisvn.homescreen18.png' class='icon'>
+                <div>
+                    <div style="font-weight:bold; font-size:15px;">Homescreen18 <span style="color:#888; font-size:12px;">v1.0</span></div>
+                    <div style="color:#666; font-size:13px; margin-top:2px;">Adds homescreen customization like on iOS 18. Supports iOS 16.0-17.7 Dopamine, NathanLR Rootless.</div>
+                </div>
+            </div>
+            <div class="tweak-item">
+                <img src='icons/com.jtisvn.cc18.png' class='icon'>
+                <div>
+                    <div style="font-weight:bold; font-size:15px;">CC18 <span style="color:#888; font-size:12px;">v0.0.3</span></div>
+                    <div style="color:#666; font-size:13px; margin-top:2px;">Brings the iOS 18 control center on older devices! (iOS 15.0-16.7.15)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
